@@ -16,6 +16,8 @@ filtered_data = data_ini[(data_ini[0].isin(top_users.index.tolist())) & (data_in
 # print(filtered_data.count) 
 # the sparsity is roughly 50%
 
+
+# generate dataframe(and csv later) with row id selected top 200 user id, column id are selected movie id
 df = filtered_data.pivot_table(index=0, columns=1, values=2, aggfunc='first')
 print("the original 200*200 data matrix without synthetic imputation:", df.head(50))
 
@@ -23,9 +25,9 @@ print("the original 200*200 data matrix without synthetic imputation:", df.head(
 df_fill3 = df.fillna(3)
 df_fill3.to_csv(os.path.join("noisy_truth_matrix", f"df_fill3.csv"))
 
+
 # create df_c to replace all the NaN by user's mean rating minus c, with c values 0.1, 0.2, 0.3, 0.5, 0.75, 1
 # based on the assumption that classmate will rate unfamiliar restaurant c points below his average
-
 c_values = [0.1, 0.2, 0.3, 0.5, 0.75, 1]
 output_dir = "noisy_truth_matrix"
 os.makedirs(output_dir, exist_ok=True)
